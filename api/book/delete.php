@@ -2,7 +2,7 @@
     // Headers
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: PUT');
+    header('Access-Control-Allow-Methods: DELETE');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
     include_once '../../config/Database.php';
@@ -17,21 +17,15 @@
 
     // GET raw posted data
     $data = json_decode(file_get_contents("php://input"));
-
-    //Set ID to update
+    
     $book->id = $data->id;
-    $book->title = $data->title;
-    $book->description = $data->description;
-    $book->author_id = $data->author_id;
-    $book->genre_id = $data->genre_id;
-    $book->price = $data->price;
 
-    if($book->update()){
+    if($book->delete()){
         echo json_encode(
-            array('message' => 'Book Updated')
+            array('message' => 'Book Deleted')
         );
     } else {
         echo json_encode(
-            array('message' => 'Book Not Updated')
+            array('message' => 'Book Not Deleted')
         );
     }

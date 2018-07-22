@@ -132,4 +132,63 @@
                 return false;
             }
         }
+
+        public function create(){
+            //Create query
+            $query = 'INSERT INTO '. $this->table . '
+            SET
+                title = :title,
+                description = :description,
+                author_id = :author_id,
+                genre_id = :genre_id,
+                price = :price';
+
+            //Prep the statment
+            $stmt = $this->conn->prepare($query);
+
+            //CLean the data
+            $this->title = htmlspecialchars(strip_tags($this->title));
+            $this->description = htmlspecialchars(strip_tags($this->description));
+            $this->author_id = htmlspecialchars(strip_tags($this->author_id));
+            $this->genre_id = htmlspecialchars(strip_tags($this->genre_id));
+            $this->price = htmlspecialchars(strip_tags($this->price));
+
+            //Bind params
+            $stmt->bindParam(':title', $this->title);
+            $stmt->bindParam(':description', $this->description);
+            $stmt->bindParam(':author_id', $this->author_id);
+            $stmt->bindParam(':genre_id', $this->genre_id);
+            $stmt->bindParam(':price', $this->price);
+
+            if ($stmt->execute()){
+                return true;
+            } 
+
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+            
+        }
+
+        //Delete Book
+        public function delete(){
+            //Create query
+            $query = "DELETE FROM ". $this->table . '
+            WHERE
+                id = :id
+            ';
+
+            //prepare statement
+            $stmt = $this->conn->prepare($query);
+
+            $this->id = htmlspecialchars(strip_tags($this->id));
+
+            $stmt->bindParam(':id', $this->id);
+
+            if($stmt->execute()){
+                return true;
+            }
+
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+        }
     }
