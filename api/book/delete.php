@@ -1,31 +1,36 @@
 <?php
-    // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: DELETE');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Book.php';
+// Headers
 
-    //Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: DELETE');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+include_once '../../config/Database.php';
 
-    //Instantiate book object
-    $book = new Book($db);
+include_once '../../models/Book.php';
 
-    // GET raw posted data
-    $data = json_decode(file_get_contents("php://input"));
-    
-    $book->id = $data->id;
+// Instantiate DB and Connect
 
-    if($book->delete()){
-        echo json_encode(
-            array('message' => 'Book Deleted')
-        );
-    } else {
-        echo json_encode(
-            array('message' => 'Book Not Deleted')
-        );
-    }
+$database = new Database();
+$db = $database->connect();
+
+// Instantiate book object
+
+$book = new Book($db);
+
+// GET raw data
+
+$data = json_decode(file_get_contents("php://input"));
+$book->id = $data->id;
+
+if ($book->delete()) {
+	echo json_encode(array(
+		'message' => 'Book Deleted'
+	));
+}
+else {
+	echo json_encode(array(
+		'message' => 'Book Not Deleted'
+	));
+}

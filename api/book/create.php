@@ -1,35 +1,40 @@
 <?php
-    // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Book.php';
+// Headers
 
-    //Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+include_once '../../config/Database.php';
 
-    //Instantiate book object
-    $book = new Book($db);
+include_once '../../models/Book.php';
 
-    // GET raw posted data
-    $data = json_decode(file_get_contents("php://input"));
+// Instantiate DB and Connect
 
-    $book->title = $data->title;
-    $book->description = $data->description;
-    $book->author_id = $data->author_id;
-    $book->genre_id = $data->genre_id;
-    $book->price = $data->price;
+$database = new Database();
+$db = $database->connect();
 
-    if($book->create()){
-        echo json_encode(
-            array('message' => 'Book Updated')
-        );
-    } else {
-        echo json_encode(
-            array('message' => 'Book Not Updated')
-        );
-    }
+// Instantiate book object
+
+$book = new Book($db);
+
+// GET raw data
+
+$data = json_decode(file_get_contents("php://input"));
+$book->title = $data->title;
+$book->description = $data->description;
+$book->author_id = $data->author_id;
+$book->genre_id = $data->genre_id;
+$book->price = $data->price;
+
+if ($book->create()) {
+	echo json_encode(array(
+		'message' => 'Book Updated'
+	));
+}
+else {
+	echo json_encode(array(
+		'message' => 'Book Not Updated'
+	));
+}

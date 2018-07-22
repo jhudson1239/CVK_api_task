@@ -19,7 +19,7 @@
             $this->conn = $db;
         }
 
-        //Get Books
+        //Get all books
         public function read(){
             //Create query
             $query = 'SELECT
@@ -49,7 +49,7 @@
             return $stmt;
         }
 
-        //Get single
+        //Get single book
         public function read_single(){
              //Create query
              $query = 'SELECT
@@ -93,6 +93,7 @@
             
         }
 
+        //Update a book
         public function update(){
             //Create query
             $query = 'UPDATE ' . 
@@ -133,6 +134,7 @@
             }
         }
 
+        //Create a book
         public function create(){
             //Create query
             $query = 'INSERT INTO '. $this->table . '

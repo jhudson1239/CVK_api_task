@@ -1,51 +1,63 @@
 <?php
-    // Headers
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
 
-    include_once '../../config/Database.php';
-    include_once '../../models/Book.php';
+// Headers
 
-    //Instantiate DB and Connect
-    $database = new Database();
-    $db = $database->connect();
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+include_once '../../config/Database.php';
 
-    //Instantiate blog post object
-    $book = new Book($db);
+include_once '../../models/Book.php';
 
-    //Blog post query
-    $result = $book->read();
+// Instantiate DB and Connect
 
-    //Get row count
-    $num = $result->rowCount();
+$database = new Database();
+$db = $database->connect();
 
-    //Check if there are any posts
-    if ($num > 0){
-        //Post array
-        $posts_arr = array();
-        $posts_arr['data'] = array();
+// Instantiate book object
 
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            extract($row);
-            $post_item = array(
-                'id' => $id,
-                'title' => $title,
-                'price' => $price,
-                'author_name' => $author_name,
-                'genre_genre' => $genre_genre,
-                'description' => $description
-            );
+$book = new Book($db);
 
-            //Push to "data
-            array_push($posts_arr['data'], $post_item);
-        }
+// Book query
 
-        //Turn to JSON and output
-        echo json_encode($posts_arr);
+$result = $book->read();
 
-    }else{
-        // No posts
-        echo json_encode(
-            array('message' => 'No Posts Found')
-        );
-    }
+// Get row count
+
+$num = $result->rowCount();
+
+// Check if there are any books
+
+if ($num > 0) {
+
+	// Book array
+
+	$books = array();
+	$books_arr['data'] = array();
+	while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+		extract($row);
+		$book_item = array(
+			'id' => $id,
+			'title' => $title,
+			'price' => $price,
+			'author_name' => $author_name,
+			'genre_genre' => $genre_genre,
+			'description' => $description
+		);
+
+		// Push to "data
+
+		array_push($books_arr['data'], $book_item);
+	}
+
+	// Turn to JSON and output
+
+	echo json_encode($books_arr);
+}
+else {
+
+	// No books
+
+	echo json_encode(array(
+		'message' => 'No Books Found'
+	));
+}
