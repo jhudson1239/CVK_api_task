@@ -30,11 +30,11 @@ $book->price = $data->price;
 
 if ($book->create()) {
 	echo json_encode(array(
-		'message' => 'Book Updated'
+		'message' => 'Book Created'
 	));
 }
 else {
 	echo json_encode(array(
-		'message' => 'Book Not Updated'
+		'message' => 'Book Not Created'
 	));
 }
