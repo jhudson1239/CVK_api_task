@@ -30,11 +30,10 @@
             $post_item = array(
                 'id' => $id,
                 'title' => $title,
-                'description' => $description,
-                'author' => $author_id,
+                'price' => $price,
                 'author_name' => $author_name,
-                'genre' => $genre_id,
-                'genre_genre' => $genre_genre
+                'genre_genre' => $genre_genre,
+                'description' => $description
             );
 
             //Push to "data
